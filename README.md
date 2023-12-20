@@ -1,5 +1,5 @@
 ## Objetivo
-Criar um software para controle financeiro. Exibindo um histórico das entradas, saídas e saldos da sua conta.
+Criar um software para controle financeiro, exibindo um histórico das entradas, saídas e saldos da sua conta.
 
 ## Instruções
 Colocar em prática os conhecimentos em bancos de dados.
@@ -7,8 +7,8 @@ Colocar em prática os conhecimentos em bancos de dados.
 ## Requisitos:
 O programda deve conter:<br>
 Tela de cadastro;<br>
-Tela de Login<br>
-Tela inicial<br>
+Tela de Login;<br>
+Tela inicial.<br>
 
 ## Informativo:
 Será utilizado o MySQL - XAMPP.<br>
