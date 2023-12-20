@@ -34,11 +34,11 @@
             this.txtSenha = new System.Windows.Forms.TextBox();
             this.btEntrar = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btCadastrar = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
+            this.msgErro = new System.Windows.Forms.Label();
             this.erroSenha = new System.Windows.Forms.Label();
             this.erroEmail = new System.Windows.Forms.Label();
-            this.msgErro = new System.Windows.Forms.Label();
+            this.btCadastrar = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -47,11 +47,11 @@
             this.txtEmail.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtEmail.Location = new System.Drawing.Point(221, 138);
             this.txtEmail.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(295, 36);
+            this.txtEmail.Size = new System.Drawing.Size(369, 33);
             this.txtEmail.TabIndex = 0;
             // 
             // lblEmail
@@ -85,12 +85,12 @@
             this.txtSenha.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSenha.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSenha.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSenha.Location = new System.Drawing.Point(221, 204);
             this.txtSenha.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtSenha.Name = "txtSenha";
             this.txtSenha.PasswordChar = '*';
-            this.txtSenha.Size = new System.Drawing.Size(295, 36);
+            this.txtSenha.Size = new System.Drawing.Size(369, 33);
             this.txtSenha.TabIndex = 3;
             // 
             // btEntrar
@@ -124,30 +124,17 @@
             this.panel1.Size = new System.Drawing.Size(687, 450);
             this.panel1.TabIndex = 5;
             // 
-            // btCadastrar
+            // msgErro
             // 
-            this.btCadastrar.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btCadastrar.Location = new System.Drawing.Point(385, 278);
-            this.btCadastrar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btCadastrar.Name = "btCadastrar";
-            this.btCadastrar.Size = new System.Drawing.Size(131, 80);
-            this.btCadastrar.TabIndex = 6;
-            this.btCadastrar.Text = "CADASTRAR";
-            this.btCadastrar.UseVisualStyleBackColor = true;
-            this.btCadastrar.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // label3
-            // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(317, 57);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(89, 29);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "LOGIN";
+            this.msgErro.AutoSize = true;
+            this.msgErro.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.msgErro.ForeColor = System.Drawing.Color.Red;
+            this.msgErro.Location = new System.Drawing.Point(218, 242);
+            this.msgErro.Name = "msgErro";
+            this.msgErro.Size = new System.Drawing.Size(177, 16);
+            this.msgErro.TabIndex = 11;
+            this.msgErro.Text = "Usuário não encontrado!";
+            this.msgErro.Visible = false;
             // 
             // erroSenha
             // 
@@ -173,17 +160,30 @@
             this.erroEmail.Text = "O campo E-mail é obrigatório";
             this.erroEmail.Visible = false;
             // 
-            // msgErro
+            // btCadastrar
             // 
-            this.msgErro.AutoSize = true;
-            this.msgErro.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.msgErro.ForeColor = System.Drawing.Color.Red;
-            this.msgErro.Location = new System.Drawing.Point(218, 242);
-            this.msgErro.Name = "msgErro";
-            this.msgErro.Size = new System.Drawing.Size(177, 16);
-            this.msgErro.TabIndex = 11;
-            this.msgErro.Text = "Usuário não encontrado!";
-            this.msgErro.Visible = false;
+            this.btCadastrar.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btCadastrar.Location = new System.Drawing.Point(385, 278);
+            this.btCadastrar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btCadastrar.Name = "btCadastrar";
+            this.btCadastrar.Size = new System.Drawing.Size(131, 80);
+            this.btCadastrar.TabIndex = 6;
+            this.btCadastrar.Text = "CADASTRAR";
+            this.btCadastrar.UseVisualStyleBackColor = true;
+            this.btCadastrar.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(317, 57);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(89, 29);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "LOGIN";
             // 
             // Login
             // 
