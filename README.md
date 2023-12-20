@@ -11,7 +11,8 @@ Tela de Login<br>
 Tela inicial<br>
 
 ## Informativo:
-Será utilizado o MySQL - XAMPP.
+Será utilizado o MySQL - XAMPP.<br>
+Projeto em andamento...
 
 
 ![GIF](https://process.filestackapi.com/cache=expiry:max/resize=width:700/efbSR18hT5uRKuo0zoMA)
