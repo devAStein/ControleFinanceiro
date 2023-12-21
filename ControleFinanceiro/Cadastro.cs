@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using MySqlX.XDevAPI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,6 +7,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
+using System.Net.Http.Headers;
+using System.Security.Policy;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,7 +18,7 @@ namespace ControleFinanceiro
 {
     public partial class Cadastro : Form
     {
-        conexao con = new conexao();
+        Conexao con = new Conexao();
         string sql;
         MySqlCommand cmd;
 
@@ -26,11 +29,15 @@ namespace ControleFinanceiro
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        public static string nomeBancoDeDados;
+
+        
+        public void button1_Click(object sender, EventArgs e)
         {
-            if (txbEmail.Text.ToString().Trim() == "")
+
+            if (txbUsuario.Text.ToString().Trim() == "")
             {
-                txbEmail.Text = "";
+                txbUsuario.Text = "";
                 erroEmail.Visible = true;
                 erroSenha.Visible = false;
                 return;
@@ -44,20 +51,24 @@ namespace ControleFinanceiro
             }
             else
             {
+                nomeBancoDeDados = txbUsuario.Text;
+
                 con.AbrirConexao();
-                sql = "INSERT INTO usuario (email, senha) VALUES(@email, @senha)";
+                sql = "INSERT INTO usuario (usuario, senha) VALUES(@usuario, @senha)";
                 cmd = new MySqlCommand(sql, con.con);
-                cmd.Parameters.AddWithValue("@email", txbEmail.Text);
+                cmd.Parameters.AddWithValue("@usuario", txbUsuario.Text);
                 cmd.Parameters.AddWithValue("@senha", txbSenha.Text);
                 cmd.ExecuteNonQuery();
                 con.FecharConexao();
-                txbEmail.Text = "";
+                txbUsuario.Text = "";
                 txbSenha.Text = "";
                 erroEmail.Visible = false;
                 erroSenha.Visible = false;
                 msgSucesso.Visible = true;
+                bancoFinanceiro.conectar();
             }
             
+
         }
 
         private void btLogin_Click(object sender, EventArgs e)
@@ -71,6 +82,11 @@ namespace ControleFinanceiro
         private void abrirLogin(object onj)
         {
             Application.Run(new Login());
+        }
+
+        private void txbEmail_TextChanged(object sender, EventArgs e)
+        {
+
         }
 
     }

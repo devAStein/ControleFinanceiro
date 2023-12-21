@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace ControleFinanceiro
 {
-    internal class conexao
+    internal class Conexao
     {
         public string conec = "SERVER=localhost; DATABASE=sqllogin; UID=root; PWD=; PORT=";
 

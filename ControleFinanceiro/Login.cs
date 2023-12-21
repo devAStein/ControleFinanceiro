@@ -15,7 +15,7 @@ namespace ControleFinanceiro
 {
     public partial class Login : Form
     {
-        conexao con = new conexao();
+        Conexao con = new Conexao();
 
         Thread t1;
         Thread t2;
@@ -25,6 +25,8 @@ namespace ControleFinanceiro
             InitializeComponent();
         }
 
+        public static string nomeBancoDeDados;
+
         private void button1_Click(object sender, EventArgs e)
         {
             try
@@ -32,22 +34,23 @@ namespace ControleFinanceiro
                 con.AbrirConexao();
                 MySqlCommand cmdVerificar;
                 MySqlDataReader reader;
-                cmdVerificar = new MySqlCommand("SELECT * FROM usuario WHERE email=@email AND senha=@senha", con.con);
+                cmdVerificar = new MySqlCommand("SELECT * FROM usuario WHERE usuario=@usuario AND senha=@senha", con.con);
                 MySqlDataAdapter da = new MySqlDataAdapter();
                 da.SelectCommand = cmdVerificar;
-                cmdVerificar.Parameters.AddWithValue("@email", txtEmail.Text);
+                cmdVerificar.Parameters.AddWithValue("@usuario", txtUsuario.Text);
                 cmdVerificar.Parameters.AddWithValue("@senha", txtSenha.Text);
                 reader = cmdVerificar.ExecuteReader();
                 if (reader.HasRows)
                 {
+                    nomeBancoDeDados = txtUsuario.Text;
                     this.Close();
                     t1 = new Thread(abrirInicial);
                     t1.SetApartmentState(ApartmentState.STA);
                     t1.Start();
                 }
-                else if (txtEmail.Text.ToString().Trim() == "")
+                else if (txtUsuario.Text.ToString().Trim() == "")
                 {
-                    txtEmail.Text = "";
+                    txtUsuario.Text = "";
                     erroEmail.Visible = true;
                     erroSenha.Visible = false;
                     msgErro.Visible = false;
@@ -64,7 +67,7 @@ namespace ControleFinanceiro
                 else 
                 {
                     txtSenha.Text = "";
-                    txtEmail.Text = "";
+                    txtUsuario.Text = "";
                     erroEmail.Visible = false;
                     erroSenha.Visible = false;
                     msgErro.Visible = true;
