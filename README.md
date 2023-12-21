@@ -14,5 +14,8 @@ Tela inicial.<br>
 Será utilizado o MySQL - XAMPP.<br>
 Projeto em andamento...
 
+## Atualização:
+21/12/2023: Nesta atualização, para cada usuário é criado um banco de dados financeiro.
+
 
 ![GIF](https://process.filestackapi.com/cache=expiry:max/resize=width:700/efbSR18hT5uRKuo0zoMA)
