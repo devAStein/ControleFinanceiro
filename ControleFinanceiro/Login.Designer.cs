@@ -46,10 +46,10 @@
             // 
             this.txtUsuario.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.txtUsuario.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtUsuario.Location = new System.Drawing.Point(221, 138);
-            this.txtUsuario.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtUsuario.Location = new System.Drawing.Point(166, 112);
+            this.txtUsuario.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtUsuario.Name = "txtUsuario";
-            this.txtUsuario.Size = new System.Drawing.Size(369, 26);
+            this.txtUsuario.Size = new System.Drawing.Size(278, 23);
             this.txtUsuario.TabIndex = 0;
             // 
             // lblEmail
@@ -57,9 +57,10 @@
             this.lblEmail.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.lblEmail.AutoSize = true;
             this.lblEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEmail.Location = new System.Drawing.Point(115, 135);
+            this.lblEmail.Location = new System.Drawing.Point(86, 110);
+            this.lblEmail.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblEmail.Name = "lblEmail";
-            this.lblEmail.Size = new System.Drawing.Size(100, 29);
+            this.lblEmail.Size = new System.Drawing.Size(79, 25);
             this.lblEmail.TabIndex = 1;
             this.lblEmail.Text = "Usuario";
             // 
@@ -68,9 +69,10 @@
             this.lblSenha.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.lblSenha.AutoSize = true;
             this.lblSenha.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSenha.Location = new System.Drawing.Point(129, 199);
+            this.lblSenha.Location = new System.Drawing.Point(97, 162);
+            this.lblSenha.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblSenha.Name = "lblSenha";
-            this.lblSenha.Size = new System.Drawing.Size(86, 29);
+            this.lblSenha.Size = new System.Drawing.Size(70, 25);
             this.lblSenha.TabIndex = 2;
             this.lblSenha.Text = "Senha";
             // 
@@ -78,22 +80,22 @@
             // 
             this.txtSenha.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.txtSenha.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSenha.Location = new System.Drawing.Point(221, 204);
-            this.txtSenha.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtSenha.Location = new System.Drawing.Point(166, 166);
+            this.txtSenha.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtSenha.Name = "txtSenha";
             this.txtSenha.PasswordChar = '*';
-            this.txtSenha.Size = new System.Drawing.Size(369, 26);
+            this.txtSenha.Size = new System.Drawing.Size(278, 23);
             this.txtSenha.TabIndex = 3;
             // 
             // btEntrar
             // 
             this.btEntrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.btEntrar.Location = new System.Drawing.Point(221, 278);
-            this.btEntrar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btEntrar.MaximumSize = new System.Drawing.Size(131, 80);
-            this.btEntrar.MinimumSize = new System.Drawing.Size(131, 80);
+            this.btEntrar.Location = new System.Drawing.Point(166, 226);
+            this.btEntrar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btEntrar.MaximumSize = new System.Drawing.Size(98, 65);
+            this.btEntrar.MinimumSize = new System.Drawing.Size(98, 65);
             this.btEntrar.Name = "btEntrar";
-            this.btEntrar.Size = new System.Drawing.Size(131, 80);
+            this.btEntrar.Size = new System.Drawing.Size(98, 65);
             this.btEntrar.TabIndex = 4;
             this.btEntrar.Text = "ENTRAR";
             this.btEntrar.UseVisualStyleBackColor = true;
@@ -115,9 +117,9 @@
             this.panel1.Controls.Add(this.lblEmail);
             this.panel1.Controls.Add(this.txtSenha);
             this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(687, 450);
+            this.panel1.Size = new System.Drawing.Size(515, 366);
             this.panel1.TabIndex = 5;
             // 
             // msgErro
@@ -126,9 +128,10 @@
             this.msgErro.AutoSize = true;
             this.msgErro.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.msgErro.ForeColor = System.Drawing.Color.Red;
-            this.msgErro.Location = new System.Drawing.Point(219, 242);
+            this.msgErro.Location = new System.Drawing.Point(164, 197);
+            this.msgErro.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.msgErro.Name = "msgErro";
-            this.msgErro.Size = new System.Drawing.Size(177, 16);
+            this.msgErro.Size = new System.Drawing.Size(147, 13);
             this.msgErro.TabIndex = 11;
             this.msgErro.Text = "Usuário não encontrado!";
             this.msgErro.Visible = false;
@@ -139,9 +142,10 @@
             this.erroSenha.AutoSize = true;
             this.erroSenha.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.erroSenha.ForeColor = System.Drawing.Color.Red;
-            this.erroSenha.Location = new System.Drawing.Point(219, 242);
+            this.erroSenha.Location = new System.Drawing.Point(164, 197);
+            this.erroSenha.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.erroSenha.Name = "erroSenha";
-            this.erroSenha.Size = new System.Drawing.Size(208, 16);
+            this.erroSenha.Size = new System.Drawing.Size(170, 13);
             this.erroSenha.TabIndex = 10;
             this.erroSenha.Text = "O campo senha é obrigatório";
             this.erroSenha.Visible = false;
@@ -152,9 +156,10 @@
             this.erroEmail.AutoSize = true;
             this.erroEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.erroEmail.ForeColor = System.Drawing.Color.Red;
-            this.erroEmail.Location = new System.Drawing.Point(219, 176);
+            this.erroEmail.Location = new System.Drawing.Point(164, 143);
+            this.erroEmail.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.erroEmail.Name = "erroEmail";
-            this.erroEmail.Size = new System.Drawing.Size(271, 20);
+            this.erroEmail.Size = new System.Drawing.Size(177, 13);
             this.erroEmail.TabIndex = 9;
             this.erroEmail.Text = "O campo usuario é obrigatório";
             this.erroEmail.Visible = false;
@@ -162,12 +167,12 @@
             // btCadastrar
             // 
             this.btCadastrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.btCadastrar.Location = new System.Drawing.Point(385, 278);
-            this.btCadastrar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btCadastrar.MaximumSize = new System.Drawing.Size(131, 80);
-            this.btCadastrar.MinimumSize = new System.Drawing.Size(131, 80);
+            this.btCadastrar.Location = new System.Drawing.Point(289, 226);
+            this.btCadastrar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btCadastrar.MaximumSize = new System.Drawing.Size(98, 65);
+            this.btCadastrar.MinimumSize = new System.Drawing.Size(98, 65);
             this.btCadastrar.Name = "btCadastrar";
-            this.btCadastrar.Size = new System.Drawing.Size(131, 80);
+            this.btCadastrar.Size = new System.Drawing.Size(98, 65);
             this.btCadastrar.TabIndex = 6;
             this.btCadastrar.Text = "CADASTRAR";
             this.btCadastrar.UseVisualStyleBackColor = true;
@@ -178,20 +183,22 @@
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(317, 57);
+            this.label3.Location = new System.Drawing.Point(238, 46);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(89, 29);
+            this.label3.Size = new System.Drawing.Size(73, 25);
             this.label3.TabIndex = 5;
             this.label3.Text = "LOGIN";
             // 
             // Login
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(687, 450);
+            this.ClientSize = new System.Drawing.Size(515, 366);
             this.Controls.Add(this.panel1);
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Login";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

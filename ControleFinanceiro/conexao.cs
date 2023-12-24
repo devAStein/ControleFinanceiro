@@ -15,7 +15,6 @@ namespace ControleFinanceiro
 
         public MySqlConnection con = null;
 
-        //abrir conexão
         public void AbrirConexao()
         {
             try
@@ -29,7 +28,6 @@ namespace ControleFinanceiro
             }
             
         }
-        //fechar conexão
 
         public void FecharConexao()
         {

@@ -35,39 +35,48 @@ namespace ControleFinanceiro
         public void button1_Click(object sender, EventArgs e)
         {
 
-            if (txbUsuario.Text.ToString().Trim() == "")
+            try
             {
+                if (txbUsuario.Text.ToString().Trim() == "")
+                {
+                    txbUsuario.Text = "";
+                    erroEmail.Visible = true;
+                    erroSenha.Visible = false;
+                    return;
+                }
+                else if (txbSenha.Text.ToString().Trim() == "")
+                {
+                    txbSenha.Text = "";
+                    erroEmail.Visible = false;
+                    erroSenha.Visible = true;
+                    return;
+                }
+                else
+                {
+                    nomeBancoDeDados = txbUsuario.Text;
+                    con.AbrirConexao();
+                    sql = "INSERT INTO usuario (usuario, senha) VALUES(@usuario, @senha)";
+                    cmd = new MySqlCommand(sql, con.con);
+                    cmd.Parameters.AddWithValue("@usuario", txbUsuario.Text);
+                    cmd.Parameters.AddWithValue("@senha", txbSenha.Text);
+                    cmd.ExecuteNonQuery();
+                    con.FecharConexao();
+                    txbUsuario.Text = "";
+                    txbSenha.Text = "";
+                    erroEmail.Visible = false;
+                    erroSenha.Visible = false;
+                    erroDuploUsuario.Visible = false;
+                    msgSucesso.Visible = true;
+                    bancoFinanceiro.conectar();
+                }
+            }
+            catch (Exception)
+            {
+                erroDuploUsuario.Visible = true;
+                msgSucesso.Visible = false;
                 txbUsuario.Text = "";
-                erroEmail.Visible = true;
-                erroSenha.Visible = false;
-                return;
-            }
-            else if (txbSenha.Text.ToString().Trim() == "")
-            {
                 txbSenha.Text = "";
-                erroEmail.Visible = false;
-                erroSenha.Visible = true;
-                return;
             }
-            else
-            {
-                nomeBancoDeDados = txbUsuario.Text;
-
-                con.AbrirConexao();
-                sql = "INSERT INTO usuario (usuario, senha) VALUES(@usuario, @senha)";
-                cmd = new MySqlCommand(sql, con.con);
-                cmd.Parameters.AddWithValue("@usuario", txbUsuario.Text);
-                cmd.Parameters.AddWithValue("@senha", txbSenha.Text);
-                cmd.ExecuteNonQuery();
-                con.FecharConexao();
-                txbUsuario.Text = "";
-                txbSenha.Text = "";
-                erroEmail.Visible = false;
-                erroSenha.Visible = false;
-                msgSucesso.Visible = true;
-                bancoFinanceiro.conectar();
-            }
-            
 
         }
 
@@ -84,10 +93,14 @@ namespace ControleFinanceiro
             Application.Run(new Login());
         }
 
-        private void txbEmail_TextChanged(object sender, EventArgs e)
+        private void txbSenha_TextChanged(object sender, EventArgs e)
         {
 
         }
 
+        private void txbSenha_MouseClick(object sender, MouseEventArgs e)
+        {
+            
+        }
     }
 }

@@ -14,20 +14,14 @@ namespace ControleFinanceiro
 {
     internal class bancoFinanceiro
     {
-
         //Responsável pela conexão com o banco
         public static MySqlConnection Conex;
-
         //Função responsável pela instrução a serem executada
         public static MySqlCommand comando;
-
         //Adapter responsável por inserir dados um dataTable
         public static MySqlDataAdapter adaptador;
-
         //Responsável popr ligar o banco em controle com a propriedade DataSource
         public static DataTable datTabela;
-
-        
         
         public static void conectar()
         {
@@ -51,29 +45,26 @@ namespace ControleFinanceiro
             comando = new MySqlCommand("CREATE TABLE IF NOT EXISTS dados " + 
                                       "(id integer auto_increment primary key, " +
                                       "dataEntrada text NOT NULL, " +
+                                      "dataLancamento date NOT NULL, " +
                                       "idenEntrada varchar(100) NOT NULL, " +
                                       "valorEntrada double NOT NULL, " +
                                       "valorSaida double NOT NULL)", Conex);
-
             comando.ExecuteNonQuery();
             //Fecha a conexão com o banco de dados
             Conex.Close();
         }
 
-
-        string sinanceiro = (Login.nomeBancoDeDados);
-        string sinanceiro2 = (inicial.nomeBancoDeDados);
-        public string bancoF = ("SERVER=localhost; DATABASE=");
-        public string bancot = ("; UID=root; PWD=; PORT=");
+        string nomeDoBanco = (Login.nomeBancoDeDados);
+        public string cmdMsg1 = ("SERVER=localhost; DATABASE=");
+        public string cmdMsg2 = ("; UID=root; PWD=; PORT=");
 
         public MySqlConnection acessBanco = null;
 
-        //abrir banco de dados financeiro
         public void abrirBancoFinanceiro()
         {
             try
             {
-                acessBanco = new MySqlConnection(bancoF + sinanceiro + bancot);
+                acessBanco = new MySqlConnection(cmdMsg1 + nomeDoBanco + cmdMsg2);
                 acessBanco.Open();
             }
             catch (Exception ex)
@@ -82,13 +73,11 @@ namespace ControleFinanceiro
             }
         }
 
-        //fechar banco de dados financeiro
-
         public void fecharBancoFinanceiro()
         {
             try
             {
-                acessBanco = new MySqlConnection(bancoF + sinanceiro2 + bancot);
+                acessBanco = new MySqlConnection(cmdMsg1 + nomeDoBanco + cmdMsg2);
                 acessBanco.Close();
             }
             catch (Exception ex)
