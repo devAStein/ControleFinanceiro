@@ -84,17 +84,17 @@ namespace ControleFinanceiro
             Application.Run(new inicial());
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void abrirCadastro(object onj)
+        {
+            Application.Run(new Cadastro());
+        }
+
+        private void btCadastrar_Click(object sender, EventArgs e)
         {
             this.Close();
             t2 = new Thread(abrirCadastro);
             t2.SetApartmentState(ApartmentState.STA);
             t2.Start();
-        }
-
-        private void abrirCadastro(object onj)
-        {
-            Application.Run(new Cadastro());
         }
     }
 }

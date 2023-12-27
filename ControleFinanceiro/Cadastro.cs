@@ -68,6 +68,10 @@ namespace ControleFinanceiro
                     erroDuploUsuario.Visible = false;
                     msgSucesso.Visible = true;
                     bancoFinanceiro.conectar();
+                    this.Close();
+                    t1 = new Thread(abrirLogin);
+                    t1.SetApartmentState(ApartmentState.STA);
+                    t1.Start();
                 }
             }
             catch (Exception)
@@ -78,14 +82,6 @@ namespace ControleFinanceiro
                 txbSenha.Text = "";
             }
 
-        }
-
-        private void btLogin_Click(object sender, EventArgs e)
-        {
-            this.Close();
-            t1 = new Thread(abrirLogin);
-            t1.SetApartmentState(ApartmentState.STA);
-            t1.Start();
         }
 
         private void abrirLogin(object onj)
@@ -101,6 +97,14 @@ namespace ControleFinanceiro
         private void txbSenha_MouseClick(object sender, MouseEventArgs e)
         {
             
+        }
+
+        private void btLogin_Click_1(object sender, EventArgs e)
+        {
+            this.Close();
+            t1 = new Thread(abrirLogin);
+            t1.SetApartmentState(ApartmentState.STA);
+            t1.Start();
         }
     }
 }
