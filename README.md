@@ -15,6 +15,7 @@ Será utilizado o MySQL - XAMPP.<br>
 Projeto em andamento...
 
 ## Atualização:
+24/12/2023: Nesta atualização foi acrescentado os botões de filtro e deletar os itens da tabela.<br>
 21/12/2023: Nesta atualização, para cada usuário é criado um banco de dados financeiro.
 
 
