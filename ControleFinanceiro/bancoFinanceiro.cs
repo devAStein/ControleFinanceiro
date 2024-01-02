@@ -18,7 +18,6 @@ namespace ControleFinanceiro
         public static MySqlConnection Conex;
         //Função responsável pela instrução a serem executada
         public static MySqlCommand comando;
-        public static MySqlCommand comando2;
         //Adapter responsável por inserir dados um dataTable
         public static MySqlDataAdapter adaptador;
         //Responsável popr ligar o banco em controle com a propriedade DataSource
@@ -49,6 +48,14 @@ namespace ControleFinanceiro
                                       "dataLancamento date NOT NULL, " +
                                       "idenEntrada varchar(100) NOT NULL, " +
                                       "valorEntrada double NOT NULL, " +
+                                      "valorSaida double NOT NULL)", Conex);
+            comando.ExecuteNonQuery();
+
+            comando = new MySqlCommand("CREATE TABLE IF NOT EXISTS pendencia " +
+                                      "(id integer auto_increment primary key, " +
+                                      "dataLancamento date NOT NULL, " +
+                                      "idenEntrada varchar(100) NOT NULL, " +
+                                      "valorEntrada double NOT NULL," +
                                       "valorSaida double NOT NULL)", Conex);
             comando.ExecuteNonQuery();
             //Fecha a conexão com o banco de dados

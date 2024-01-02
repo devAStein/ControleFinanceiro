@@ -26,8 +26,11 @@ namespace ControleFinanceiro
         double entrada;
         double saida;
 
-        string id;
+        string idPlanilha;
+        string idPlanilhaPend;
         DataTable dt = new DataTable();
+
+        Thread t1;
 
         public inicial()
         {
@@ -38,10 +41,11 @@ namespace ControleFinanceiro
         }
 
         private void inicial_Load(object sender, EventArgs e)
-        {
-            listarPlanilhPend();
+        {            
+            listarPlanilhaAatualPendente();
             listarPlanilhaAatual();
             valorTota();
+            valorTotaPendente();
         }
 
         private void formatarPlanilha()
@@ -57,19 +61,22 @@ namespace ControleFinanceiro
             planilha.Columns[4].DefaultCellStyle.ForeColor = Color.Green;
             planilha.Columns[5].DefaultCellStyle.Format = "c";
             planilha.Columns[5].DefaultCellStyle.ForeColor = Color.Red;
+            planilha.Sort(planilha.Columns[2], ListSortDirection.Descending);
         }
 
         private void formatarPlanilhaPend()
-        {
+        {          
             //Planilha de pendencias            
             planilhaPendente.Columns[0].Visible = false;
             planilhaPendente.Columns[1].HeaderText = "Data Prevista";
             planilhaPendente.Columns[2].HeaderText = "Descrição";
-            planilhaPendente.Columns[3].HeaderText = "Valor";
+            planilhaPendente.Columns[3].HeaderText = "Entrada";
+            planilhaPendente.Columns[4].HeaderText = "Saida";
             planilhaPendente.Columns[3].DefaultCellStyle.Format = "c";
-            planilhaPendente.Columns[3].DefaultCellStyle.ForeColor = Color.Orange;
-            planilhaPendente.Sort(planilhaPendente.Columns[1], ListSortDirection.Descending);
-
+            planilhaPendente.Columns[3].DefaultCellStyle.ForeColor = Color.Green;
+            planilhaPendente.Columns[4].DefaultCellStyle.Format = "c";
+            planilhaPendente.Columns[4].DefaultCellStyle.ForeColor = Color.Red;
+            planilhaPendente.Sort(planilhaPendente.Columns[1], ListSortDirection.Ascending);
         }
 
         private void listarPlanilha()
@@ -94,6 +101,26 @@ namespace ControleFinanceiro
             string Data1 = System.String.Format("{0:yyyy-MM-dd}", Convert.ToDateTime(first));
             string Data2 = System.String.Format("{0:yyyy-MM-dd}", Convert.ToDateTime(last));
 
+            acessBanco.abrirBancoFinanceiro();
+            sql = "SELECT * FROM pendencia where dataLancamento >= '" + Data1 + "' And dataLancamento <= '" + Data2 + "'";
+            cmd = new MySqlCommand(sql, acessBanco.acessBanco);
+            MySqlDataAdapter da = new MySqlDataAdapter();
+            da.SelectCommand = cmd;
+            dt = new DataTable();
+            da.Fill(dt);
+            planilhaPendente.DataSource = dt;
+            acessBanco.fecharBancoFinanceiro();
+            formatarPlanilhaPend();
+
+        }
+
+        private void listarPlanilhaAatualPendente()
+        {
+            var now = DateTime.UtcNow;
+            var first = now.Date.AddDays(-(now.Date.Day - 1));
+            var last = first.AddMonths(1).AddTicks(-1);
+            string Data1 = System.String.Format("{0:yyyy-MM-dd}", Convert.ToDateTime(first));
+            string Data2 = System.String.Format("{0:yyyy-MM-dd}", Convert.ToDateTime(last));
             acessBanco.abrirBancoFinanceiro();
             sql = "SELECT * FROM pendencia where dataLancamento >= '" + Data1 + "' And dataLancamento <= '" + Data2 + "'";
             cmd = new MySqlCommand(sql, acessBanco.acessBanco);
@@ -143,7 +170,22 @@ namespace ControleFinanceiro
                 valorSaida.Text = saida.ToString("C");
             }
         }
-     
+
+        private void valorTotaPendente()
+        {
+            total = 0;
+            entrada = 0;
+            saida = 0;
+
+            foreach (DataGridViewRow linha in planilhaPendente.Rows)
+            {
+                entrada += Convert.ToDouble(linha.Cells[3].Value);
+                saida += Convert.ToDouble(linha.Cells[4].Value);
+                valorEntradaPend.Text = entrada.ToString("C");
+                valorSaidaPend.Text = saida.ToString("C");
+            }
+        }
+
         private void btnEntrada_Click(object sender, EventArgs e)
         {
             string agora = DateTime.Now.ToString();
@@ -152,12 +194,33 @@ namespace ControleFinanceiro
             txtEntrValor.Text = txtEntrValor.Text.Replace(".", "");
             txtEntrValor.Text = txtEntrValor.Text.Replace(",", ".");
 
-            if (txtEntrIdentificador.Text.ToString().Trim() == "" || txtEntrValor.Text.ToString().Trim() == "" || txtLancamento.Text.ToString().Trim() == "")
+            if (txtEntrIdentificador.Text.ToString().Trim() == "" || txtEntrValor.Text.ToString().Trim() == "" || txtEntrValor.Text.ToString().Trim() == "0.00" || txtLancamento.Text.ToString() == "  /  /")
             {
                 txtEntrIdentificador.Text = "";
                 txtEntrValor.Text = "";
                 txtLancamento.Text = "";
                 msgErroEntr.Visible = true;
+            }
+            else if (txtFiltroInicial.Text != "  /  /" || txtFiltroFinal.Text != "  /  /")
+            {
+                string dataLancamento = System.String.Format("{0:yyyy-MM-dd}", Convert.ToDateTime(txtLancamento.Text));
+                acessBanco.abrirBancoFinanceiro();
+                sql = "INSERT INTO dados (dataEntrada, dataLancamento, idenEntrada, valorEntrada) VALUES(@dataEntrada, @dataLancamento, @idenEntrada, @valorEntrada)";
+                cmd = new MySqlCommand(sql, acessBanco.acessBanco);
+                cmd.Parameters.AddWithValue("@dataEntrada", agora);
+                cmd.Parameters.AddWithValue("@dataLancamento", dataLancamento);
+                cmd.Parameters.AddWithValue("@idenEntrada", txtEntrIdentificador.Text);
+                cmd.Parameters.AddWithValue("@valorEntrada", txtEntrValor.Text);
+                cmd.ExecuteNonQuery();
+                acessBanco.fecharBancoFinanceiro();
+                txtEntrIdentificador.Text = "";
+                txtEntrValor.Text = "";
+                txtLancamento.Text = "";
+                msgErroEntr.Visible = false;
+                msgSuceEntr.Visible = true;
+                msgErroNumero.Visible = false;
+                filtroPlanilha();
+                valorTota();
             }
             else
             {
@@ -177,7 +240,7 @@ namespace ControleFinanceiro
                 msgErroEntr.Visible = false;
                 msgSuceEntr.Visible = true;
                 msgErroNumero.Visible = false;
-                listarPlanilha();
+                listarPlanilhaAatual();
                 valorTota();
             }
 
@@ -191,12 +254,33 @@ namespace ControleFinanceiro
             txtEntrValor.Text = txtEntrValor.Text.Replace(".", "");
             txtEntrValor.Text = txtEntrValor.Text.Replace(",", ".");
 
-            if (txtEntrIdentificador.Text.ToString().Trim() == "" || txtEntrValor.Text.ToString().Trim() == "" || txtLancamento.Text.ToString().Trim() == "")
+            if (txtEntrIdentificador.Text.ToString().Trim() == "" || txtEntrValor.Text.ToString().Trim() == "" || txtEntrValor.Text.ToString().Trim() == "0.00" || txtLancamento.Text.ToString() == "  /  /")
             {
                 txtEntrIdentificador.Text = "";
                 txtEntrValor.Text = "";
                 txtLancamento.Text = "";
                 msgErroEntr.Visible = true;
+            }
+            else if (txtFiltroInicial.Text != "  /  /" || txtFiltroFinal.Text != "  /  /")
+            {
+                string dataLancamento = System.String.Format("{0:yyyy-MM-dd}", Convert.ToDateTime(txtLancamento.Text));
+                acessBanco.abrirBancoFinanceiro();
+                sql = "INSERT INTO dados (dataEntrada, dataLancamento, idenEntrada, valorSaida) VALUES(@dataEntrada, @dataLancamento, @idenEntrada, @valorSaida)";
+                cmd = new MySqlCommand(sql, acessBanco.acessBanco);
+                cmd.Parameters.AddWithValue("@dataEntrada", agora);
+                cmd.Parameters.AddWithValue("@dataLancamento", dataLancamento);
+                cmd.Parameters.AddWithValue("@idenEntrada", txtEntrIdentificador.Text);
+                cmd.Parameters.AddWithValue("@valorSaida", txtEntrValor.Text);
+                cmd.ExecuteNonQuery();
+                acessBanco.fecharBancoFinanceiro();
+                txtEntrIdentificador.Text = "";
+                txtEntrValor.Text = "";
+                txtLancamento.Text = "";
+                msgErroEntr.Visible = false;
+                msgSuceEntr.Visible = true;
+                msgErroNumero.Visible = false;
+                filtroPlanilha();
+                valorTota();
             }
             else
             {
@@ -216,7 +300,7 @@ namespace ControleFinanceiro
                 msgErroEntr.Visible = false;
                 msgSuceEntr.Visible = true;
                 msgErroNumero.Visible = false;
-                listarPlanilha();
+                listarPlanilhaAatual();
                 valorTota();
             }
                        
@@ -238,7 +322,7 @@ namespace ControleFinanceiro
                     msgErroNumero.Visible = false;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 msgErroNumero.Visible = true;
                 txtEntrIdentificador.Text = "";
@@ -255,25 +339,46 @@ namespace ControleFinanceiro
 
         private void btnDeletar_Click(object sender, EventArgs e)
         {
-            acessBanco.abrirBancoFinanceiro();
-            sql = "DELETE FROM dados WHERE id=@id";
-            cmd = new MySqlCommand(sql, acessBanco.acessBanco);
-            cmd.Parameters.AddWithValue("@id", id);
-            cmd.ExecuteNonQuery();
-            acessBanco.fecharBancoFinanceiro();
-            listarPlanilha();
-            valorTota();
-            txtEntrIdentificador.Text = "";
-            txtEntrValor.Text = "";
-            msgErroNumero.Visible = false;
-            msgErroEntr.Visible = false;
-            msgSuceEntr.Visible = false;
-            msgErroNumero.Visible = false;
+            if (txtFiltroInicial.Text != "  /  /" || txtFiltroFinal.Text != "  /  /")
+            {
+                acessBanco.abrirBancoFinanceiro();
+                sql = "DELETE FROM dados WHERE id=@id";
+                cmd = new MySqlCommand(sql, acessBanco.acessBanco);
+                cmd.Parameters.AddWithValue("@id", idPlanilha);
+                cmd.ExecuteNonQuery();
+                acessBanco.fecharBancoFinanceiro();
+                filtroPlanilha();
+                valorTota();
+                txtEntrIdentificador.Text = "";
+                txtEntrValor.Text = "";
+                msgErroNumero.Visible = false;
+                msgErroEntr.Visible = false;
+                msgSuceEntr.Visible = false;
+                msgErroNumero.Visible = false;
+            }
+            else
+            {
+                acessBanco.abrirBancoFinanceiro();
+                sql = "DELETE FROM dados WHERE id=@id";
+                cmd = new MySqlCommand(sql, acessBanco.acessBanco);
+                cmd.Parameters.AddWithValue("@id", idPlanilha);
+                cmd.ExecuteNonQuery();
+                acessBanco.fecharBancoFinanceiro();
+                listarPlanilhaAatual();
+                valorTota();
+                txtEntrIdentificador.Text = "";
+                txtEntrValor.Text = "";
+                msgErroNumero.Visible = false;
+                msgErroEntr.Visible = false;
+                msgSuceEntr.Visible = false;
+                msgErroNumero.Visible = false;
+            }
+            
         }
 
         private void planilha_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            id = planilha.CurrentRow.Cells[0].Value.ToString();
+            idPlanilha = planilha.CurrentRow.Cells[0].Value.ToString();
         }
 
         public void filtroPendente()
@@ -310,31 +415,63 @@ namespace ControleFinanceiro
             formatarPlanilha();
         }
 
-        public void filtroPlanidlha()
+        private void btnFiltro_Click(object sender, EventArgs e)
         {
-            if (txtFiltroInicial.Text == "" || txtFiltroFinal.Text == "")
+            try
             {
-                listarPlanilhaAatual();
+                if (txtFiltroInicial.Text == "  /  /" || txtFiltroFinal.Text == "  /  /")
+                {
+                    listarPlanilhaAatual();
+                    listarPlanilhaAatualPendente();
+                    valorTota();
+                    valorTotaPendente();
+                }
+                else
+                {
+                    filtroPendente();
+                    filtroPlanilha();
+                    valorTota();
+                    valorTotaPendente();
+                }
             }
-            else
+            catch
             {
-                filtroPendente();
-                filtroPlanilha();
-                valorTota();
+                msgErroData.Visible = true;
             }
+            
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnEntradaPend_Click(object sender, EventArgs e)
         {
             txtEntrValorPend.Text = txtEntrValorPend.Text.Replace(".", "");
             txtEntrValorPend.Text = txtEntrValorPend.Text.Replace(",", ".");
 
-            if (txtEntrIdentificadorPend.Text.ToString().Trim() == "" || txtEntrValorPend.Text.ToString().Trim() == "" || txtLancamentoPend.Text.ToString().Trim() == "")
+            if (txtEntrIdentificadorPend.Text.ToString().Trim() == "" || txtEntrValorPend.Text.ToString().Trim() == "" || txtEntrValorPend.Text.ToString().Trim() == "0.00" || txtLancamentoPend.Text.ToString() == "  /  /")
             {
                 txtEntrIdentificadorPend.Text = "";
                 txtEntrValorPend.Text = "";
                 txtLancamentoPend.Text = "";
                 msgErroEntrPend.Visible = true;
+            }
+            else if (txtFiltroInicial.Text != "  /  /" || txtFiltroFinal.Text != "  /  /")
+            {
+                string dataLancamento = System.String.Format("{0:yyyy-MM-dd}", Convert.ToDateTime(txtLancamentoPend.Text));
+                acessBanco.abrirBancoFinanceiro();
+                sql = "INSERT INTO pendencia (dataLancamento, idenEntrada, valorEntrada) VALUES(@dataLancamento, @idenEntrada, @valorEntrada)";
+                cmd = new MySqlCommand(sql, acessBanco.acessBanco);
+                cmd.Parameters.AddWithValue("@dataLancamento", dataLancamento);
+                cmd.Parameters.AddWithValue("@idenEntrada", txtEntrIdentificadorPend.Text);
+                cmd.Parameters.AddWithValue("@valorEntrada", txtEntrValorPend.Text);
+                cmd.ExecuteNonQuery();
+                acessBanco.fecharBancoFinanceiro();
+                txtEntrIdentificadorPend.Text = "";
+                txtEntrValorPend.Text = "";
+                txtLancamentoPend.Text = "";
+                msgErroEntrPend.Visible = false;
+                msgSuceEntr.Visible = true;
+                msgErroNumeroPend.Visible = false;
+                filtroPendente();
+                valorTotaPendente();
             }
             else
             {
@@ -354,6 +491,61 @@ namespace ControleFinanceiro
                 msgSuceEntr.Visible = true;
                 msgErroNumeroPend.Visible = false;
                 listarPlanilhPend();
+                valorTotaPendente();
+            }
+        }
+
+        private void btnSaidaPend_Click(object sender, EventArgs e)
+        {
+            txtEntrValorPend.Text = txtEntrValorPend.Text.Replace(".", "");
+            txtEntrValorPend.Text = txtEntrValorPend.Text.Replace(",", ".");
+
+            if (txtEntrIdentificadorPend.Text.ToString().Trim() == "" || txtEntrValorPend.Text.ToString().Trim() == "" || txtEntrValorPend.Text.ToString().Trim() == "0.00" || txtLancamentoPend.Text.ToString() == "  /  /")
+            {
+                txtEntrIdentificadorPend.Text = "";
+                txtEntrValorPend.Text = "";
+                txtLancamentoPend.Text = "";
+                msgErroEntrPend.Visible = true;
+            }
+            else if (txtFiltroInicial.Text != "  /  /" || txtFiltroFinal.Text != "  /  /")
+            {
+                string dataLancamento = System.String.Format("{0:yyyy-MM-dd}", Convert.ToDateTime(txtLancamentoPend.Text));
+                acessBanco.abrirBancoFinanceiro();
+                sql = "INSERT INTO pendencia (dataLancamento, idenEntrada, valorSaida) VALUES(@dataLancamento, @idenEntrada, @valorSaida)";
+                cmd = new MySqlCommand(sql, acessBanco.acessBanco);
+                cmd.Parameters.AddWithValue("@dataLancamento", dataLancamento);
+                cmd.Parameters.AddWithValue("@idenEntrada", txtEntrIdentificadorPend.Text);
+                cmd.Parameters.AddWithValue("@valorSaida", txtEntrValorPend.Text);
+                cmd.ExecuteNonQuery();
+                acessBanco.fecharBancoFinanceiro();
+                txtEntrIdentificadorPend.Text = "";
+                txtEntrValorPend.Text = "";
+                txtLancamentoPend.Text = "";
+                msgErroEntrPend.Visible = false;
+                msgSuceEntr.Visible = true;
+                msgErroNumeroPend.Visible = false;
+                filtroPendente();
+                valorTotaPendente();
+            }
+            else
+            {
+                string dataLancamento = System.String.Format("{0:yyyy-MM-dd}", Convert.ToDateTime(txtLancamentoPend.Text));
+                acessBanco.abrirBancoFinanceiro();
+                sql = "INSERT INTO pendencia (dataLancamento, idenEntrada, valorSaida) VALUES(@dataLancamento, @idenEntrada, @valorSaida)";
+                cmd = new MySqlCommand(sql, acessBanco.acessBanco);
+                cmd.Parameters.AddWithValue("@dataLancamento", dataLancamento);
+                cmd.Parameters.AddWithValue("@idenEntrada", txtEntrIdentificadorPend.Text);
+                cmd.Parameters.AddWithValue("@valorSaida", txtEntrValorPend.Text);
+                cmd.ExecuteNonQuery();
+                acessBanco.fecharBancoFinanceiro();
+                txtEntrIdentificadorPend.Text = "";
+                txtEntrValorPend.Text = "";
+                txtLancamentoPend.Text = "";
+                msgErroEntrPend.Visible = false;
+                msgSuceEntr.Visible = true;
+                msgErroNumeroPend.Visible = false;
+                listarPlanilhPend();
+                valorTotaPendente();
             }
         }
 
@@ -372,13 +564,68 @@ namespace ControleFinanceiro
                     msgErroNumeroPend.Visible = false;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 msgErroNumeroPend.Visible = true;
                 txtEntrIdentificadorPend.Text = "";
                 txtEntrValorPend.Text = "";
                 txtLancamentoPend.Text = "";
             }
+        }
+
+        private void planilhaPendente_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            idPlanilhaPend = planilhaPendente.CurrentRow.Cells[0].Value.ToString();
+            try
+            {
+                txtEntrIdentificador.Text = planilhaPendente.CurrentRow.Cells[2].Value.ToString();
+                txtEntrValor.Text = planilhaPendente.CurrentRow.Cells[3].Value.ToString();
+                txtEntrValor.Text = Double.Parse(txtEntrValor.Text).ToString("C");
+                txtEntrValor.Text = txtEntrValor.Text.Replace("R$", "");
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void btnExcluirPend_Click(object sender, EventArgs e)
+        {
+            
+            if (txtFiltroInicial.Text != "  /  /" || txtFiltroFinal.Text != "  /  /")
+            {                
+                acessBanco.abrirBancoFinanceiro();
+                sql = "DELETE FROM pendencia WHERE id=@id";
+                cmd = new MySqlCommand(sql, acessBanco.acessBanco);
+                cmd.Parameters.AddWithValue("@id", idPlanilhaPend);
+                cmd.ExecuteNonQuery();
+                acessBanco.fecharBancoFinanceiro();
+                filtroPendente();
+            }
+            else
+            {
+                acessBanco.abrirBancoFinanceiro();
+                sql = "DELETE FROM pendencia WHERE id=@id";
+                cmd = new MySqlCommand(sql, acessBanco.acessBanco);
+                cmd.Parameters.AddWithValue("@id", idPlanilhaPend);
+                cmd.ExecuteNonQuery();
+                acessBanco.fecharBancoFinanceiro();
+                listarPlanilhaAatualPendente();
+                valorTotaPendente();
+            }
+            
+        }
+
+        private void abrirOrcamento(object onj)
+        {
+            System.Windows.Forms.Application.Run(new orcamento());
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            t1 = new Thread(abrirOrcamento);
+            t1.SetApartmentState(ApartmentState.STA);
+            t1.Start();
         }
     }
 }
