@@ -4,19 +4,15 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Windows.Forms.LinkLabel;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ControleFinanceiro
 {
-    public partial class inicial : Form
+    public partial class formatar : Form
     {
         bancoFinanceiro acessBanco = new bancoFinanceiro();
         string sql;
@@ -30,16 +26,15 @@ namespace ControleFinanceiro
         string idPlanilhaPend;
         DataTable dt = new DataTable();
 
-        public inicial()
+
+
+        public formatar()
         {
             InitializeComponent();
-            string nomeDoBanco = (Login.nomeBancoDeDados);
-            //nomeUsuario.Text = nomeDoBanco;
-            
         }
 
-        private void inicial_Load(object sender, EventArgs e)
-        {            
+        private void formatar_load(object sender, EventArgs e)
+        {
             listarPlanilhaAatualPendente();
             listarPlanilhaAatual();
             valorTota();
@@ -64,7 +59,7 @@ namespace ControleFinanceiro
         }
 
         private void formatarPlanilhaPend()
-        {          
+        {
             //Planilha de pendencias            
             planilhaPendente.Columns[0].Visible = false;
             planilhaPendente.Columns[1].HeaderText = "Data Prevista";
@@ -89,7 +84,7 @@ namespace ControleFinanceiro
             da.Fill(dt);
             planilha.DataSource = dt;
             acessBanco.fecharBancoFinanceiro();
-            formatarPlanilha();            
+            formatarPlanilha();
         }
 
         private void listarPlanilhPend()
@@ -112,6 +107,7 @@ namespace ControleFinanceiro
             planilhaPendente.DataSource = dt;
             acessBanco.fecharBancoFinanceiro();
             formatarPlanilhaPend();
+
         }
 
         private void listarPlanilhaAatualPendente()
@@ -150,6 +146,7 @@ namespace ControleFinanceiro
             planilha.DataSource = dt;
             acessBanco.fecharBancoFinanceiro();
             formatarPlanilha();
+
         }
 
         private void contagemPendencia()
@@ -174,7 +171,7 @@ namespace ControleFinanceiro
             total = 0;
             entrada = 0;
             saida = 0;
-            
+
             foreach (DataGridViewRow linha in planilha.Rows)
             {
                 entrada += Convert.ToDouble(linha.Cells[4].Value);
@@ -204,6 +201,7 @@ namespace ControleFinanceiro
         private void btnEntrada_Click(object sender, EventArgs e)
         {
             string agora = DateTime.Now.ToString();
+
 
             txtEntrValor.Text = txtEntrValor.Text.Replace(".", "");
             txtEntrValor.Text = txtEntrValor.Text.Replace(",", ".");
@@ -309,7 +307,7 @@ namespace ControleFinanceiro
                     valorTota();
                     contagemPendencia();
                 }
-            }
+            }       
         }
 
         private void btnSaida_Click(object sender, EventArgs e)
@@ -318,7 +316,7 @@ namespace ControleFinanceiro
 
             txtEntrValor.Text = txtEntrValor.Text.Replace(".", "");
             txtEntrValor.Text = txtEntrValor.Text.Replace(",", ".");
-
+            
             if (definirPlanilhaPendente.Checked)
             {
                 if (txtEntrIdentificador.Text.ToString().Trim() == "" || txtEntrValor.Text.ToString().Trim() == "" || txtEntrValor.Text.ToString().Trim() == "0.00" || txtLancamento.Text.ToString() == "  /  /")
@@ -368,8 +366,7 @@ namespace ControleFinanceiro
                     valorTotaPendente();
                     contagemPendencia();
                 }
-            }
-            else if (definirPlanilhaMovimentacoes.Checked)
+            }else if (definirPlanilhaMovimentacoes.Checked)
             {
                 if (txtEntrIdentificador.Text.ToString().Trim() == "" || txtEntrValor.Text.ToString().Trim() == "" || txtEntrValor.Text.ToString().Trim() == "0.00" || txtLancamento.Text.ToString() == "  /  /")
                 {
@@ -446,6 +443,7 @@ namespace ControleFinanceiro
                 txtEntrValor.Text = "";
                 txtLancamento.Text = "";
             }
+
         }
 
         private void btnDeletar_Click(object sender, EventArgs e)
@@ -514,6 +512,8 @@ namespace ControleFinanceiro
                     msgErroNumero.Visible = false;
                 }
             }
+            
+
         }
 
         private void planilha_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -524,6 +524,7 @@ namespace ControleFinanceiro
 
         public void filtroPendente()
         {
+
             string Data1 = System.String.Format("{0:yyyy-MM-dd}", Convert.ToDateTime(txtFiltroInicial.Text));
             string Data2 = System.String.Format("{0:yyyy-MM-dd}", Convert.ToDateTime(txtFiltroFinal.Text));
             acessBanco.abrirBancoFinanceiro();
@@ -536,6 +537,7 @@ namespace ControleFinanceiro
             planilhaPendente.DataSource = dt;
             acessBanco.fecharBancoFinanceiro();
             formatarPlanilhaPend();
+
         }
 
         public void filtroPlanilha()
@@ -572,6 +574,7 @@ namespace ControleFinanceiro
                 acessBanco.fecharBancoFinanceiro();
                 formatarPlanilha();
             }
+
         }
 
         public void filtroPlanilhaDescricao()
@@ -611,6 +614,7 @@ namespace ControleFinanceiro
                 acessBanco.fecharBancoFinanceiro();
                 formatarPlanilha();
             }
+
         }
 
         private void filtrocontagemPendencia()
@@ -626,6 +630,8 @@ namespace ControleFinanceiro
             cmd.ExecuteNonQuery();
             acessBanco.fecharBancoFinanceiro();
         }
+
+
 
         private void btnFiltro_Click(object sender, EventArgs e)
         {
@@ -660,6 +666,7 @@ namespace ControleFinanceiro
             {
                 msgErroData.Visible = true;
             }
+
         }
 
         private void btnFiltroLimpar_Click(object sender, EventArgs e)
@@ -674,9 +681,11 @@ namespace ControleFinanceiro
             txtFiltroDescrição.Text = "";
         }
 
+                        
         private void planilhaPendente_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             idPlanilhaPend = planilhaPendente.CurrentRow.Cells[0].Value.ToString();
+            idPlanilha = "";
 
             try
             {
@@ -694,7 +703,8 @@ namespace ControleFinanceiro
                     txtEntrValor.Text = planilhaPendente.CurrentRow.Cells[4].Value.ToString();
                     txtEntrValor.Text = Double.Parse(txtEntrValor.Text).ToString("C");
                     txtEntrValor.Text = txtEntrValor.Text.Replace("R$", "");
-                }                
+                }
+
             }
             catch
             {
@@ -702,65 +712,5 @@ namespace ControleFinanceiro
             }
         }
 
-        private void txtEntrValor_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if(e.KeyChar==(char)Keys.Enter)
-            {
-                txtEntrIdentificador.Select();
-            }
-
-            try
-            {
-                if (txtEntrValor.Text == "")
-                {
-
-                }
-                else
-                {
-                    txtEntrValor.Text = Double.Parse(txtEntrValor.Text).ToString("C");
-                    txtEntrValor.Text = txtEntrValor.Text.Replace("R$", "");
-                    msgErroNumero.Visible = false;
-                }
-            }
-            catch (Exception)
-            {
-                msgErroNumero.Visible = true;
-                txtEntrIdentificador.Text = "";
-                txtEntrValor.Text = "";
-                txtLancamento.Text = "";
-            }
-        }
-
-        private void txtEntrIdentificador_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char)Keys.Enter)
-            {
-                txtLancamento.Select();
-            }
-        }
-
-        private void txtFiltroInicial_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char)Keys.Enter)
-            {
-                txtFiltroFinal.Select();
-            }
-        }
-
-        private void txtFiltroFinal_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char)Keys.Enter)
-            {
-                txtFiltroDescrição.Select();
-            }
-        }
-
-        private void txtFiltroDescrição_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char)Keys.Enter)
-            {
-                btnFiltro.Select();
-            }
-        }
     }
 }

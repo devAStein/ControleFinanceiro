@@ -70,6 +70,12 @@
       <DependentUpon>Cadastro.cs</DependentUpon>
     </Compile>
     <Compile Include="conexao.cs" />
+    <Compile Include="formatar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formatar.Designer.cs">
+      <DependentUpon>formatar.cs</DependentUpon>
+    </Compile>
     <Compile Include="inicial.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -92,6 +98,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Cadastro.resx">
       <DependentUpon>Cadastro.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="formatar.resx">
+      <DependentUpon>formatar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="inicial.resx">
       <DependentUpon>inicial.cs</DependentUpon>
