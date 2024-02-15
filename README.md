@@ -24,6 +24,6 @@ Projeto em andamento...
 ### Tela de Cadastro:<br><br>
 ![Cadastro - Software](https://github.com/devAStein/ControleFinanceiro/assets/132412580/956afc56-99e4-4d82-9d83-5250f951910e)<br>
 ### Tela principal:<br><br>
-![Controle Financeiro - Software](https://github.com/devAStein/ControleFinanceiro/assets/132412580/af288925-e286-440b-8d48-5970a18d281b)<br><br>
+![Controle Financeiro - Software](https://github.com/devAStein/ControleFinanceiro/assets/132412580/6fdd0620-8ef6-4ec3-be92-73c31835aa51)<br>
 
 ![GIF](https://process.filestackapi.com/cache=expiry:max/resize=width:700/efbSR18hT5uRKuo0zoMA)
